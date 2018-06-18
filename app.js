@@ -1,32 +1,17 @@
-const express    = require("express");
-const app        = express();
+const express = require("express");
+const app = express();
+const cors = require("cors");
 const bodyParser = require("body-parser");
-const path       = require("path");
-const cors       = require("cors");
-const passport   = require("passport");
-// const config =require("./config/database");
+const db = require("./models");
+const port = process.env.PORT || 8081;
 
-const port = process.env.PORT || 8080;
-app(use(cors));
-
-/* bodyParser will parse request to json for POST */
+app.use(cors());
 app.use(bodyParser.json());
 
-app.use(passport.initialize());
-app.use(passport.session());
+app.use("api/auth", function() {
+  console.log(`server running`);
+});
 
-// mongoose.connect(config.database);
-// mongoose.connection.on('error', (err) => {
-//   consolo.log(`database error: ${config.databse}`);
-// })
-
-require('./config/passport')(passport);
-
-// Uses routes from Users
-const users = require('./routes/users');
-app.use('users', users);
-
-// Users routes from Posts
-const posts = require('./routes/posts');
-app.use('posts', posts); 
-
+app.listen(port, function() {
+  console.log(`Server is starting on port ${port}`);
+})
